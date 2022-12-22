@@ -1,0 +1,10 @@
+Period,Sample_size,Method,Hill_number,Estimate,Lower_CI,Upper_CI,Metric
+early,24,Observed,0,203,188.9174,217.0826,Species richness
+mid,24,Rarefaction,0,164.3223597,148.6268371,180.0178822,Species richness
+late,24,Rarefaction,0,164.8322903,150.6694929,178.9950877,Species richness
+early,24,Observed,1,123.6231439,112.6794984,134.5667893,Exponential Shannon Entropy
+mid,24,Rarefaction,1,100.0818294,90.03117834,110.1324804,Exponential Shannon Entropy
+late,24,Rarefaction,1,106.1262851,94.98452002,117.2680501,Exponential Shannon Entropy
+early,24,Observed,2,74.95677233,66.195606,83.71793867,Inverse Simpsons concentration
+mid,24,Rarefaction,2,61.45999492,56.04141569,66.87857415,Inverse Simpsons concentration
+late,24,Rarefaction,2,67.29945814,59.6504517,74.94846458,Inverse Simpsons concentration
