@@ -1,0 +1,10 @@
+Year,Elevation,Survey,Total.individuals<4mm,Total.individuals>4mm,Total.individuals,DryBiomass.g,Arachnida,Hemiptera.Pentatomidae,Hemiptera.Other,Homoptera,Homoptera.Leafhopper,Plecoptera,Coleoptera,Trichoptera,Lepidoptera.Adult,Lepidoptera.Larvae,Diptera.Tipulidae,Diptera.Rhagionidae,Diptera.Tachinidae,Diptera.Other.HFT,Diptera.Other.MT,Hymenoptera.Not.Ichneumonids,Hymenoptera.Ichneumonids,Panorpidae,Other,Comments
+2021,Low,Early,2,175,177,1.3649,2,1,0,0,0,1,4,23,31,0,13,5,1,48,22,3,21,5,0,Lycidae (Coleoptera)
+2021,Low,Middle,2,183,185,1.0386,12,0,0,0,0,0,7,13,62,1,12,2,1,22,19,6,16,11,0,stick may have caused extra weight; no insects >= 4
+2021,Low,Late,5,299,304,1.6704,22,0,1,0,2,0,5,7,70,6,18,2,0,57,89,2,20,14,0,delphacidae (Homoptera.Leafhopper); 6 are harvestmen (Arachnida)
+2021,Mid,Early,8,275,283,1.7741,1,0,0,0,0,1,20,6,48,0,35,9,1,78,29,5,47,1,1,Six are lycidae (Coleoptera); unusual fly (Diptera.Other.HFT)
+2021,Mid,Middle,4,197,199,1.5735,6,0,2,0,0,1,5,5,61,0,19,1,1,25,15,3,53,3,0,One is a lycidae (Coleoptera); 3 are harvestmen (Arachnida)
+2021,Mid,Late,4,434,438,1.7241,18,1,0,0,1,1,6,9,45,2,64,5,0,130,127,2,24,3,0,lacewing (Other)
+2021,High,Early,5,334,339,1.9016,3,1,0,0,0,8,17,24,56,2,74,12,1,56,40,4,35,3,0,Two are lycidae (Coleoptera)
+2021,High,Middle,5,247,252,1.7821,4,0,1,0,1,2,6,9,86,1,10,0,0,30,40,4,53,6,0,Lycidae (Coleoptera)
+2021,High,Late,1,212,213,1.7982,21,0,0,0,0,1,5,4,31,4,42,1,0,37,47,0,18,2,0,3 are harvestmen (Arachnida)
