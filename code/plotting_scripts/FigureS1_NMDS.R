@@ -51,7 +51,7 @@ points(NMDS, display="sites", pch=c(15,16,17)[as.numeric(sp$Elevation)],
 ordiellipse(NMDS, kind="se", conf=0.95, sp$Elevation, col=cols,lwd=1) # 95% CI
 legend(x=0, y=0.43, xjust=0.5, pch=c(15,16,17), col=cols, cex=0.7, x.intersp=0.6,
        legend=c("Low","Mid","High"), bty="n", horiz=T, xpd=NA)
-title(main = "a", adj=0.015, line = -0.85, cex.main = 1.2)
+title(main = "b", adj=0.015, line = -0.85, cex.main = 1.2)
 
 
 dev.off()
