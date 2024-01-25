@@ -4,6 +4,7 @@
 ##   2) Prepare and export family-level diet matrix
 ##   3) Prepare and export data for Malaise comparisons
 ##   4) Prepare and export data for Lep survey comparisons
+##   5) Order-level data prep
 #### ------------------------------------------------------------------------------------ ####
 library(dplyr)
 library(tidyr)
@@ -183,6 +184,61 @@ lep.mat.meta$Notodontidae <- apply(sp.mat[,names(sp.mat) %in% noto.sp], 1, max)
 
 ## Export dataset
 write.csv(lep.mat.meta, "Leps_fecal.csv", row.names=F)
+
+
+
+
+#### ---------------------- 5) Order-level data prep ----------------------------- ####
+library(vegan)
+rm(list=ls())
+folder <- "C:/Users/astil/Dropbox/____Projects____/BTBW Diet"
+setwd(paste0(folder,"./Data/"))
+
+sp <- read.csv("Species_matrix.csv")
+tax <- read.csv("Taxonomic_reference.csv")
+sp.mat <- sp[,startsWith(colnames(sp), "Spp")]
+
+
+#### Match each species ID to an order
+t.sp <- as.data.frame(t(sp.mat))
+t.sp$order <- tax$O[match(rownames(t.sp),tax$Spp_ID)]
+
+t.sp <- t.sp[complete.cases(t.sp$order),]               # removes rows with unknown order
+t.sp <- t.sp[-which(t.sp$order==""),]                   # remove blank rows, unknown order (-5 rows)
+
+## Aggregate rows with the same order ID
+t.agg <- aggregate(t.sp[,-ncol(t.sp)], by=list(t.sp$order), FUN=sum)
+colSums(t.agg[,-1])==colSums(t.sp[,-ncol(t.sp)]) # check: Colsums should still be equal
+
+## Translate back and organize
+ord.mat <- as.data.frame(t(t.agg))
+names(ord.mat) <- lapply(ord.mat[1, ], as.character)
+ord.mat <- ord.mat[-1,]
+rownames(ord.mat) <- rownames(sp.mat)
+ord.mat <- mutate_all(ord.mat, function(x) as.numeric(as.character(x)))
+ord.mat[ord.mat > 0] <- 1                  # presence-absence conversion
+
+## Append metadata and change to presence-absence
+ord.tab <- sp %>% select(index:BandCC) %>%
+  bind_cols(y = ord.mat)
+
+
+#### Export order-level matrix
+write.csv(ord.tab, "Order_matrix.csv", row.names=F)
+
+
+#### Calculate number of orders per sample
+specnumber(ord.mat, MARGIN=1, groups=ord.tab$Period) 
+ord.tab$N.orders <- specnumber(ord.mat, MARGIN=1)
+hist(ord.tab$N.orders, breaks=20) 
+summary(ord.tab$N.orders)
+
+
+
+
+
+
+
 
 
 
