@@ -36,7 +36,7 @@ pairwise.wilcox.test(sp.tab$N.species, sp.tab$Period, p.adjust.method = "BH")
 cols <- c("#31688EFF" ,"#35B779FF","#FD9567FF")  # blue, green, peach
 
 setwd("../Output/")
-pdf(file="Figure_persample.pdf",width=3.4,height=3.6)
+pdf(file="FigureS2_PerSample.pdf",width=3.4,height=3.6)
 
 par(mar=c(1,2.5,1,1), mgp=c(1.5,0.4,0), oma =c(1,1,2,1), las=1, tcl=-0.25, cex.axis=0.7, cex.lab=0.7)
 
