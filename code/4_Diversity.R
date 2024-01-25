@@ -55,12 +55,3 @@ setwd("../Output/")
 write.csv(d, file="Diversity_rarefaction.csv", row.names = F)
 
 
-
-
-
-
-
-
-
-
-

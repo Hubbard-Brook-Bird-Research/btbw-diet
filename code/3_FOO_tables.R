@@ -2,6 +2,7 @@
 #### Calculate FOO tables and export
 ##  1) Species-level
 ##  2) Family-level
+##  3) Order-level
 #### ------------------------------------------------------------------------------------ ####
 library(vegan)
 library(stringr)
@@ -95,5 +96,79 @@ setwd(folder)
 setwd("../Output/")
 write.csv(foo.final, "Family_FOO.csv", row.names = F)
 
+
+#### Looking more at age: Table of FOO by Family for HY vs SY/ASY vs All 
+foo.final <- data.frame(Family=colnames(fam.mat), Total_freq=freq, All=NA, AHY=NA, HY=NA)
+hy <- fam.mat[which(fam$Age =="HY"), ]
+ahy <- fam.mat[which(fam$Age !="HY"), ]
+
+foo.hy <- round(specnumber(hy, MARGIN=2)/nrow(hy),3)*100
+foo.final$HY <- foo.hy[match(foo.final$Family, names(foo.hy))]
+
+foo.ahy <- round(specnumber(ahy, MARGIN=2)/nrow(ahy),3)*100
+foo.final$AHY <- foo.ahy[match(foo.final$Family, names(foo.ahy))]
+
+foo.final$All <- round(foo.final$Total_freq / nrow(fam.mat), 3)*100
+
+## Link to taxonomy
+foo.final$Order <- tax$O[match(foo.final$Family, tax$F)]
+foo.final <- foo.final %>%
+  select(Order, everything())
+
+## Sort by frequency and export
+foo.final <- foo.final[order(-foo.final$Total_freq),]
+setwd("~")
+write.csv(foo.final, "Family_FOO_Age.csv", row.names = F)
+
+
+
+
+#### ----------------------- 3) Calculate FOO table for all orders ----------------------- ####
+## This section is meant to address specific needs for the results section
+## No downstream analysis
+rm(list=setdiff(ls(), c("folder","tax")))
+
+
+#### Load data
+setwd(folder)
+ord <- read.csv("Order_matrix.csv")
+ord.mat <- as.matrix(select(ord, Araneae:Trombidiformes))
+ord.mat[ord.mat > 1] <- 1           # presence-absence conversion
+
+table(specnumber(ord.mat, MARGIN=2)) 
+freq <- specnumber(ord.mat, MARGIN=2) # creates an object with the number of times each species occurs  
+
+
+#### Q1: What was the FOO of the top three orders across samples?
+foo.all <- round(specnumber(ord.mat, MARGIN=2)/nrow(ord),3)*100
+foo.all <- data.frame(Order = names(foo.all),
+                      FOO = as.numeric(foo.all))
+foo.all <- foo.all[order(foo.all$FOO, decreasing = T), ]
+
+setwd(folder)
+setwd("../Output/")
+write.csv(foo.all, "Order_FOO.csv", row.names = F)
+
+
+#### Q2: What was the FOO of the top 3 orders for HY and SY/ASY during the late survey period?
+late <- ord.mat[which(ord$Period=="Late"), ]
+late.meta <- ord[which(ord$Period=="Late"), ]
+freq <- specnumber(late, MARGIN=2)
+
+late.hy <- late[which(late.meta$Age == "HY"), ]
+late.ahy <- late[which(late.meta$Age != "HY"), ]
+foo.final <- data.frame(Order=colnames(ord.mat), Late_freq=freq, HY=NA, AHY=NA)
+
+## Calculate FOO for each age and add to dataframe
+foo.hy <- round(specnumber(late.hy, MARGIN=2)/nrow(late.hy),3)*100
+foo.final$HY <- foo.hy[match(foo.final$Order, names(foo.hy))]
+
+foo.ahy <- round(specnumber(late.ahy, MARGIN=2)/nrow(late.ahy),3)*100
+foo.final$AHY <- foo.ahy[match(foo.final$Order, names(foo.ahy))]
+
+## Sort by frequency and export
+foo.final <- foo.final[order(-foo.final$Late_freq),]
+setwd("~")
+write.csv(foo.final, "Order_FOO_LatePeriod.csv", row.names = F)
 
 

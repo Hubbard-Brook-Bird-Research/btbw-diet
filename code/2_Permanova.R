@@ -115,6 +115,12 @@ TukeyHSD(mod.dis2)   # Period = Late is significantly different from the other P
 boxplot(mod.dis2)
 plot(mod.dis2)       # You can see that the dispersion is greater
 
+test1 <- betadisper(dis2, sp.noHY$Elevation, bias.adjust = T) # warning is okay. 
+anova(test1)      
+test2 <- betadisper(dis2, sp.noHY$Age, bias.adjust = T) # warning is okay. 
+anova(test2)  
+
+
 
 #### PERMANOVA
 fit2 <- adonis2(sp.mat.noHY ~ Period*Elevation + Age, data=sp.noHY, permutations=999, 
