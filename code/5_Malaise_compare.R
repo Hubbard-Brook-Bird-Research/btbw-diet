@@ -16,7 +16,7 @@ setwd(folder)
 m.all <- read.csv("Malaise.Order.2021.matrix.csv")
 f <- read.csv("Malaise_fecal.csv")
 f$Period[which(f$Period == "Mid")] <- "Middle"     # needs to match the Malaise dataset
-f.mat <- f %>% select(Hemiptera.Pentatomidae:Panorpidae)
+f.mat <- f %>% select(Hemiptera.Pentatomidae:Panorpidae, ,-Coleoptera)
 
 ## Dataframes to receive results
 mod.data <- data.frame(Taxon=rep(names(f.mat), times=3), 
@@ -29,8 +29,8 @@ f.foo <- data.frame(Method=rep("Fecal", ncol(f.mat)), Tax.group=names(f.mat), Ea
 #### Organize Malaise data and add to mod.data
 m.all$Lepidoptera <- apply(m.all[, c("Lepidoptera.Adult","Lepidoptera.Larvae")], 1, sum)
 m.all$Diptera.Other <- apply(m.all[, c("Diptera.Tachinidae","Diptera.Other.HFT","Diptera.Other.MT")], 1, sum)
-m <- m.all %>% select(-Lepidoptera.Adult,-Lepidoptera.Larvae,-Arachnida,
-                      -Diptera.Tachinidae,-Diptera.Other.HFT,-Diptera.Other.MT)
+m <- m.all %>% select(-c(Lepidoptera.Adult, Lepidoptera.Larvae,Arachnida, Coleoptera,
+                      Diptera.Tachinidae, Diptera.Other.HFT, Diptera.Other.MT))
 
 ## Combine Malaise abundances per season
 m <- m %>% select(Survey, Hemiptera.Pentatomidae:Panorpidae, Lepidoptera, Diptera.Other)
@@ -112,7 +112,7 @@ y.pred <- predict(mod1, newdata = data.frame(F.FOO=1:100), interval="confidence"
 y.pred <- cbind(data.frame(F.FOO=1:100), y.pred)
 
 ## Plot
-pdf(file="FigureS2_MalaiseCompare.pdf", width=5.5, height=5)
+jpeg(file="FigureS3_MalaiseCompare.jpg", width=5.5, height=5, units = "in", res = 600)
 
 par(las=1, tcl=-0.25, cex.axis=0.9, cex.lab=0.9, mgp=c(1.5,0.4,0), mar=c(4,4,3,3))
 plot(jitter(mod.data$F.FOO), mod.data$M.CaptureFreq, pch=16, col="#00000080", cex=1.2,
